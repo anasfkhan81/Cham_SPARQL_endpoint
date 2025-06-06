@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>OldEWN Emotions SPARQL Interface</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/yasgui/build/yasgui.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/yasgui/build/yasgui.min.js"></script>
+  <style>
+    html, body { height: 100%; margin: 0; padding: 0; }
+    #yasgui { height: 100vh; }
+  </style>
+</head>
+<body>
+  <div id="yasgui"></div>
+  <script>
+    const yasgui = new Yasgui(document.getElementById("yasgui"), {
+      requestConfig: {
+        endpoint: "http://lari-datasets.ilc.cnr.it/chamuca_hi_lex/sparql"
+      }
+    });
+  </script>
+</body>
+</html>
