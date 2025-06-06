@@ -18,6 +18,15 @@
         endpoint: "http://lari-datasets.ilc.cnr.it/chamuca_hi_lex/sparql"
       }
     });
+    // Optional: Pre-fill query to help users explore
+    yasgui.getTab().setQuery(`
+      PREFIX lemon: <http://lemon-model.net/lemon#>
+      SELECT DISTINCT ?entry ?form WHERE {
+        ?entry a lemon:LexicalEntry ;
+               lemon:canonicalForm ?form .
+      }
+      LIMIT 10
+    `);
   </script>
 </body>
 </html>
