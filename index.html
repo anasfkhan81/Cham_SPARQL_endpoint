@@ -28,7 +28,7 @@
     const tab = yasgui.getTab();
     tab.setEndpoint(endpointUrl); // ✅ set endpoint visibly and functionally
     tab.setQuery(`
-      PREFIX lemon: <http://lemon-model.net/lemon#>
+      PREFIX lemon: <http://www.w3.org/ns/lemon/ontolex#>
       SELECT ?entry ?form WHERE {
         ?entry a lemon:LexicalEntry ;
                lemon:canonicalForm ?form .
