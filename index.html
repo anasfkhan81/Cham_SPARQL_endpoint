@@ -1,22 +1,16 @@
-y<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>CHAmuCA SPARQL Interface</title>
+  <title>CHAmuCA Lexical Resource – SPARQL Interface</title>
   <link
     rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/@triply/yasgui@3.0.16/build/yasgui.min.css"
   />
   <script src="https://cdn.jsdelivr.net/npm/@triply/yasgui@3.0.16/build/yasgui.min.js"></script>
   <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-    }
-    #yasgui {
-      height: 100vh;
-    }
+    html, body { margin: 0; padding: 0; height: 100%; }
+    #yasgui { height: 100vh; }
   </style>
 </head>
 <body>
@@ -24,16 +18,18 @@ y<!DOCTYPE html>
   <script>
     const yasgui = new Yasgui(document.getElementById("yasgui"), {
       requestConfig: {
-        endpoint: "https://corsproxy.io/?https://lari-datasets.ilc.cnr.it/chamuca_lexical_resource/query"
+        endpoint: "https://lari-datasets.ilc.cnr.it/chamuca_lexical_resource/query"
       }
     });
 
+    // Pre-fill a query example
     yasgui.getTab().setQuery(`
-PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-SELECT * WHERE {
-  ?sub ?pred ?obj .
-} LIMIT 100
+      PREFIX lemon: <http://lemon-model.net/lemon#>
+      SELECT ?entry ?form WHERE {
+        ?entry a lemon:LexicalEntry ;
+               lemon:canonicalForm ?form .
+      }
+      LIMIT 10
     `);
   </script>
 </body>
