@@ -24,13 +24,18 @@
       }
     });
 
-    yasgui.getTab().setQuery(`
-      PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-SELECT * WHERE {
-  ?sub ?pred ?obj .
-} LIMIT 100
-    `);
+    yasgui.getTab().setQuery(`SELECT ?lemma
+WHERE {
+  VALUES ?g {
+    <http://lari-datasets.ilc.cnr.it/chamuca_hi_lex>
+    <http://lari-datasets.ilc.cnr.it/chamuca_ur_lex>
+  }
+  GRAPH ?g {
+    ?lex a <http://www.w3.org/ns/lemon/ontolex#LexicalEntry> ;
+         <http://www.w3.org/ns/lemon/ontolex#canonicalForm> ?form .
+    ?form <http://www.w3.org/ns/lemon/ontolex#writtenRep> ?lemma .
+  }
+}`);
   </script>
 </body>
 </html>
