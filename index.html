@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>CHAmuCA SPARQL Interface</title>
+  <title>CHAmuCA Lexical Resource – SPARQL Interface</title>
   <link
     rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/@triply/yasgui@3.0.16/build/yasgui.min.css"
@@ -17,6 +17,7 @@
   <div id="yasgui"></div>
   <script>
     const yasgui = new Yasgui(document.getElementById("yasgui"), {
+      persistenceId: null,  // 💡 disables saving/loading from localStorage
       yasguiConfig: {
         requestConfig: {
           endpoint: "https://lari-datasets.ilc.cnr.it/chamuca_lexical_resource/query"
@@ -24,18 +25,14 @@
       }
     });
 
-    yasgui.getTab().setQuery(`SELECT ?lemma
-WHERE {
-  VALUES ?g {
-    <http://lari-datasets.ilc.cnr.it/chamuca_hi_lex>
-    <http://lari-datasets.ilc.cnr.it/chamuca_ur_lex>
-  }
-  GRAPH ?g {
-    ?lex a <http://www.w3.org/ns/lemon/ontolex#LexicalEntry> ;
-         <http://www.w3.org/ns/lemon/ontolex#canonicalForm> ?form .
-    ?form <http://www.w3.org/ns/lemon/ontolex#writtenRep> ?lemma .
-  }
-}`);
+    yasgui.getTab().setQuery(`
+      PREFIX lemon: <http://lemon-model.net/lemon#>
+      SELECT ?entry ?form WHERE {
+        ?entry a lemon:LexicalEntry ;
+               lemon:canonicalForm ?form .
+      }
+      LIMIT 10
+    `);
   </script>
 </body>
 </html>
