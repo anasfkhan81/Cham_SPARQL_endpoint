@@ -17,16 +17,14 @@
   <div id="yasgui"></div>
   <script>
     const yasgui = new Yasgui(document.getElementById("yasgui"), {
-      persistenceId: null,  // 💡 disables saving/loading from localStorage
-      yasguiConfig: {
-        requestConfig: {
-          endpoint: "https://lari-datasets.ilc.cnr.it/chamuca_lexical_resource/query"
-        }
+      persistenceId: null,  // 💡 disables localStorage saving
+      requestConfig: {
+        endpoint: "https://lari-datasets.ilc.cnr.it/chamuca_lexical_resource/query"
       }
     });
 
     yasgui.getTab().setQuery(`
-     SELECT ?lemma
+      SELECT ?lemma
 WHERE {
   VALUES ?g {
     <http://lari-datasets.ilc.cnr.it/chamuca_hi_lex>
