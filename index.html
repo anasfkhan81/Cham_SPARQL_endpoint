@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>CHAmuCA Lexical Resource – SPARQL Interface</title>
+  <title>CHAmuCA SPARQL Interface</title>
   <link
     rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/@triply/yasgui@3.0.16/build/yasgui.min.css"
@@ -17,18 +17,20 @@
   <div id="yasgui"></div>
   <script>
     const yasgui = new Yasgui(document.getElementById("yasgui"), {
-      requestConfig: {
-        endpoint: "https://lari-datasets.ilc.cnr.it/chamuca_lexical_resource/query"
+      yasguiConfig: {
+        requestConfig: {
+          endpoint: "https://lari-datasets.ilc.cnr.it/chamuca_lexical_resource/query"
+        }
       }
     });
 
-    // Pre-fill a query example
     yasgui.getTab().setQuery(`
-PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-SELECT * WHERE {
-  ?sub ?pred ?obj .
-} LIMIT 100
+      PREFIX lemon: <http://lemon-model.net/lemon#>
+      SELECT ?entry ?form WHERE {
+        ?entry a lemon:LexicalEntry ;
+               lemon:canonicalForm ?form .
+      }
+      LIMIT 10
     `);
   </script>
 </body>
