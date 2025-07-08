@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>CHAmuCA Lexical Resource – SPARQL Interface</title>
+  <title>CHAmuCA SPARQL Interface</title>
   <link
     rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/@triply/yasgui@3.0.16/build/yasgui.min.css"
@@ -16,17 +16,18 @@
 <body>
   <div id="yasgui"></div>
   <script>
+    const endpointUrl = "https://lari-datasets.ilc.cnr.it/chamuca_lexical_resource/query";
+
     const yasgui = new Yasgui(document.getElementById("yasgui"), {
       persistenceId: null,
       requestConfig: {
-        endpoint: "https://lari-datasets.ilc.cnr.it/chamuca_lexical_resource/query"
-      },
-      yasguiConfig: {
-        defaultEndpoint: "https://lari-datasets.ilc.cnr.it/chamuca_lexical_resource/query"
+        endpoint: endpointUrl
       }
     });
 
-    yasgui.getTab().setQuery(`
+    const tab = yasgui.getTab();
+    tab.setEndpoint(endpointUrl); // ✅ set endpoint visibly and functionally
+    tab.setQuery(`
       PREFIX lemon: <http://lemon-model.net/lemon#>
       SELECT ?entry ?form WHERE {
         ?entry a lemon:LexicalEntry ;
