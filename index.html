@@ -29,12 +29,11 @@ y<!DOCTYPE html>
     });
 
     yasgui.getTab().setQuery(`
-      PREFIX lemon: <http://lemon-model.net/lemon#>
-      SELECT ?entry ?form WHERE {
-        ?entry a lemon:LexicalEntry ;
-               lemon:canonicalForm ?form .
-      }
-      LIMIT 10
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT * WHERE {
+  ?sub ?pred ?obj .
+} LIMIT 100
     `);
   </script>
 </body>
