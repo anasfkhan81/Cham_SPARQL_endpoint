@@ -79,13 +79,15 @@
 
     function loadQuery(type) {
       if (type === "lexical") {
-        tab.setName("Lexical Entries");
+        tab.setName("All Lexical Entries");
         tab.setQuery(`
 SELECT ?lemma
 WHERE {
   VALUES ?g {
     <http://lari-datasets.ilc.cnr.it/chamuca_hi_lex>
     <http://lari-datasets.ilc.cnr.it/chamuca_ur_lex>
+    <http://lari-datasets.ilc.cnr.it/chamuca_pa_lex>
+    
   }
   GRAPH ?g {
     ?lex a <http://www.w3.org/ns/lemon/ontolex#LexicalEntry> ;
