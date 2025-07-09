@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>CHAmuCA SPARQL Explorer</title>
+  <title>Chamuça Lexical Resource</title>
   <link
     rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/@triply/yasgui@3.0.16/build/yasgui.min.css"
@@ -24,17 +24,33 @@
         endpoint: endpointUrl
       },
       yasguiConfig: {
-        showEndpointSelector: false  // ✅ Hides the endpoint box from UI
+        showEndpointSelector: false
       }
     });
 
-    const tab = yasgui.getTab();
-    tab.setEndpoint(endpointUrl);
-    tab.setQuery(`
+    // Tab 1: List lexical entries and their canonical forms
+    const tab1 = yasgui.getTab();
+    tab1.setName("Lexical Entries");
+    tab1.setEndpoint(endpointUrl);
+    tab1.setQuery(`
       PREFIX lemon: <http://lemon-model.net/lemon#>
       SELECT ?entry ?form WHERE {
         ?entry a lemon:LexicalEntry ;
                lemon:canonicalForm ?form .
+      }
+      LIMIT 10
+    `);
+
+    // Tab 2: List lexical senses with definitions (if any)
+    const tab2 = yasgui.addTab(true);
+    tab2.setName("Senses + Definitions");
+    tab2.setEndpoint(endpointUrl);
+    tab2.setQuery(`
+      PREFIX lemon: <http://lemon-model.net/lemon#>
+      PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+      SELECT ?sense ?definition WHERE {
+        ?sense a lemon:LexicalSense .
+        OPTIONAL { ?sense rdfs:comment ?definition }
       }
       LIMIT 10
     `);
