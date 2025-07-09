@@ -99,7 +99,7 @@ WHERE {
       } else if (type === "senses") {
         tab.setName("Senses + Definitions");
         tab.setQuery(`
-          PREFIX lemon: <http://lemon-model.net/lemon#>
+          PREFIX lemon: <http://www.w3.org/ns/lemon/ontolex#>
           PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
           SELECT ?sense ?definition WHERE {
             ?sense a lemon:LexicalSense .
