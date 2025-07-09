@@ -29,7 +29,7 @@
     });
 
     // Tab 1: List lexical entries and their canonical forms
-    const tab1 = yasgui.getTab();
+    const tab1 = yasgui.addTab();
     tab1.setName("Lexical Entries");
     tab1.setEndpoint(endpointUrl);
     tab1.setQuery(`
@@ -42,7 +42,7 @@
     `);
 
     // Tab 2: List lexical senses with definitions (if any)
-    const tab2 = yasgui.addTab(true);
+    const tab2 = yasgui.addTab();
     tab2.setName("Senses + Definitions");
     tab2.setEndpoint(endpointUrl);
     tab2.setQuery(`
