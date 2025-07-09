@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>CHAmuCA SPARQL Interface</title>
+  <title>CHAmuCA SPARQL Explorer</title>
   <link
     rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/@triply/yasgui@3.0.16/build/yasgui.min.css"
@@ -22,13 +22,16 @@
       persistenceId: null,
       requestConfig: {
         endpoint: endpointUrl
+      },
+      yasguiConfig: {
+        showEndpointSelector: false  // ✅ Hides the endpoint box from UI
       }
     });
 
     const tab = yasgui.getTab();
-    tab.setEndpoint(endpointUrl); // ✅ set endpoint visibly and functionally
+    tab.setEndpoint(endpointUrl);
     tab.setQuery(`
-      PREFIX lemon: <http://www.w3.org/ns/lemon/ontolex#>
+      PREFIX lemon: <http://lemon-model.net/lemon#>
       SELECT ?entry ?form WHERE {
         ?entry a lemon:LexicalEntry ;
                lemon:canonicalForm ?form .
