@@ -81,12 +81,18 @@
       if (type === "lexical") {
         tab.setName("Lexical Entries");
         tab.setQuery(`
-          PREFIX lemon: <http://lemon-model.net/lemon#>
-          SELECT ?entry ?form WHERE {
-            ?entry a lemon:LexicalEntry ;
-                   lemon:canonicalForm ?form .
-          }
-          LIMIT 10
+SELECT ?lemma
+WHERE {
+  VALUES ?g {
+    <http://lari-datasets.ilc.cnr.it/chamuca_hi_lex>
+    <http://lari-datasets.ilc.cnr.it/chamuca_ur_lex>
+  }
+  GRAPH ?g {
+    ?lex a <http://www.w3.org/ns/lemon/ontolex#LexicalEntry> ;
+         <http://www.w3.org/ns/lemon/ontolex#canonicalForm> ?form .
+    ?form <http://www.w3.org/ns/lemon/ontolex#writtenRep> ?lemma .
+  }
+}
         `);
       } else if (type === "senses") {
         tab.setName("Senses + Definitions");
