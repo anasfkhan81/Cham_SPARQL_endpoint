@@ -8,35 +8,46 @@
     href="https://cdn.jsdelivr.net/npm/@triply/yasgui@3.0.16/build/yasgui.min.css"
   />
   <script src="https://cdn.jsdelivr.net/npm/@triply/yasgui@3.0.16/build/yasgui.min.js"></script>
-  <style>
-    html, body {
-      margin: 0; padding: 0; height: 100%;
-      font-family: sans-serif;
-    }
-    #toolbar {
-      padding: 1rem;
-      background: #f8f8f8;
-      border-bottom: 1px solid #ddd;
-    }
-    #toolbar button {
-      margin-right: 1rem;
-      padding: 0.5rem 1rem;
-      background: #007acc;
-      border: none;
-      color: white;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    #toolbar button:hover {
-      background: #005fa3;
-    }
-    #yasgui {
-      height: calc(100vh - 60px);
-    }
-    .yasgui .endpointInputWrapper {
-  display: none !important;
-}
-  </style>
+<style>
+  html, body {
+    margin: 0; padding: 0; height: 100%;
+    font-family: sans-serif;
+  }
+  #toolbar {
+    padding: 1rem;
+    background: #f8f8f8;
+    border-bottom: 1px solid #ddd;
+  }
+  #toolbar button {
+    margin-right: 1rem;
+    padding: 0.5rem 1rem;
+    background: #007acc;
+    border: none;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  #toolbar button:hover {
+    background: #005fa3;
+  }
+  #yasgui {
+    height: calc(100vh - 60px);
+  }
+
+  /* 🎨 Make endpoint selector khaki */
+  .yasgui .endpointInputWrapper {
+    background-color: khaki !important;
+    padding: 0.2rem;
+    border-radius: 4px;
+  }
+
+  .yasgui .endpointInputWrapper input {
+    background-color: khaki !important;
+    font-weight: bold;
+  }
+
+</style>
+
 </head>
 <body>
   <div id="toolbar">
