@@ -29,12 +29,11 @@
     });
 
     // Remove default tab
-    const defaultTab = yasgui.getTab();
-    yasgui.removeTab(defaultTab.getId());
+    yasgui.removeTab(yasgui.getTab().getId());
 
-    // Add Tab 1: Lexical Entries
-    const tab1 = yasgui.addTab(true);
-    tab1.setName("Lexical Entries 1");
+    // Create Tab 1: Lexical Entries
+    const tab1 = yasgui.addTab("lexical_entries");
+    tab1.setName("Lexical Entries");
     tab1.setEndpoint(endpointUrl);
     tab1.setQuery(`
       PREFIX lemon: <http://lemon-model.net/lemon#>
@@ -45,8 +44,8 @@
       LIMIT 10
     `);
 
-    // Add Tab 2: Senses + Definitions
-    const tab2 = yasgui.addTab(true);
+    // Create Tab 2: Senses + Definitions
+    const tab2 = yasgui.addTab("senses_definitions");
     tab2.setName("Senses + Definitions");
     tab2.setEndpoint(endpointUrl);
     tab2.setQuery(`
