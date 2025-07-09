@@ -9,12 +9,41 @@
   />
   <script src="https://cdn.jsdelivr.net/npm/@triply/yasgui@3.0.16/build/yasgui.min.js"></script>
   <style>
-    html, body { margin: 0; padding: 0; height: 100%; }
-    #yasgui { height: 100vh; }
+    html, body {
+      margin: 0; padding: 0; height: 100%;
+      font-family: sans-serif;
+    }
+    #toolbar {
+      padding: 1rem;
+      background: #f8f8f8;
+      border-bottom: 1px solid #ddd;
+    }
+    #toolbar button {
+      margin-right: 1rem;
+      padding: 0.5rem 1rem;
+      background: #007acc;
+      border: none;
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    #toolbar button:hover {
+      background: #005fa3;
+    }
+    #yasgui {
+      height: calc(100vh - 60px);
+    }
   </style>
 </head>
 <body>
+  <div id="toolbar">
+    <button onclick="loadQuery('lexical')">Lexical Entries</button>
+    <button onclick="loadQuery('senses')">Senses + Definitions</button>
+    <!-- Add more buttons here -->
+  </div>
+
   <div id="yasgui"></div>
+
   <script>
     const endpointUrl = "https://lari-datasets.ilc.cnr.it/chamuca_lexical_resource/query";
 
@@ -28,35 +57,36 @@
       }
     });
 
-    // Remove default tab
-    yasgui.removeTab(yasgui.getTab().getId());
+    const tab = yasgui.getTab();
+    tab.setEndpoint(endpointUrl);
 
-    // Create Tab 1: Lexical Entries
-    const tab1 = yasgui.addTab("lexical_entries");
-    tab1.setName("Lexical Entries");
-    tab1.setEndpoint(endpointUrl);
-    tab1.setQuery(`
-      PREFIX lemon: <http://lemon-model.net/lemon#>
-      SELECT ?entry ?form WHERE {
-        ?entry a lemon:LexicalEntry ;
-               lemon:canonicalForm ?form .
-      }
-      LIMIT 10
-    `);
+    // Load the default query
+    loadQuery("lexical");
 
-    // Create Tab 2: Senses + Definitions
-    const tab2 = yasgui.addTab("senses_definitions");
-    tab2.setName("Senses + Definitions");
-    tab2.setEndpoint(endpointUrl);
-    tab2.setQuery(`
-      PREFIX lemon: <http://lemon-model.net/lemon#>
-      PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-      SELECT ?sense ?definition WHERE {
-        ?sense a lemon:LexicalSense .
-        OPTIONAL { ?sense rdfs:comment ?definition }
+    function loadQuery(type) {
+      if (type === "lexical") {
+        tab.setName("Lexical Entries");
+        tab.setQuery(`
+          PREFIX lemon: <http://lemon-model.net/lemon#>
+          SELECT ?entry ?form WHERE {
+            ?entry a lemon:LexicalEntry ;
+                   lemon:canonicalForm ?form .
+          }
+          LIMIT 10
+        `);
+      } else if (type === "senses") {
+        tab.setName("Senses + Definitions");
+        tab.setQuery(`
+          PREFIX lemon: <http://lemon-model.net/lemon#>
+          PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+          SELECT ?sense ?definition WHERE {
+            ?sense a lemon:LexicalSense .
+            OPTIONAL { ?sense rdfs:comment ?definition }
+          }
+          LIMIT 10
+        `);
       }
-      LIMIT 10
-    `);
+    }
   </script>
 </body>
 </html>
