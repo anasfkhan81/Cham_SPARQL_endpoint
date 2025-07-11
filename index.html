@@ -117,13 +117,46 @@ SELECT DISTINCT ?hindiWord ?portugueseWord WHERE {
       else if (type === "etymons") {
     tab.setName("Portuguese Etymons");
     tab.setQuery(`
-      PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
-      SELECT DISTINCT ?lemma WHERE {
-        GRAPH <http://lari-datasets.ilc.cnr.it/chamuca_pt_lex> {
-          ?entry a ontolex:LexicalEntry ;
-                 ontolex:canonicalForm/ontolex:writtenRep ?lemma .
-        }
-      }
+    PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
+PREFIX lexinfo: <http://www.lexinfo.net/ontology/2.0/lexinfo#>
+
+SELECT ?portugueseWord (SAMPLE(?hindiWord) AS ?hi) (SAMPLE(?urduWord) AS ?ur) (SAMPLE(?punjabiWord) AS ?pa) WHERE {
+
+  # Portuguese entry and its written form
+  GRAPH <https://lari-datasets.ilc.cnr.it/chamuca_pt_lex> {
+    ?ptEntry a ontolex:LexicalEntry ;
+             ontolex:canonicalForm/ontolex:writtenRep ?portugueseWord .
+  }
+
+  # Hindi borrowing
+  OPTIONAL {
+    GRAPH <http://lari-datasets.ilc.cnr.it/chamuca_hi_lex> {
+      ?hiEntry a ontolex:LexicalEntry ;
+               lexinfo:etymologicalRoot ?ptEntry ;
+               ontolex:canonicalForm/ontolex:writtenRep ?hindiWord .
+    }
+  }
+
+  # Urdu borrowing
+  OPTIONAL {
+    GRAPH <https://lari-datasets.ilc.cnr.it/chamuca_ur_lex> {
+      ?urEntry a ontolex:LexicalEntry ;
+               lexinfo:etymologicalRoot ?ptEntry ;
+               ontolex:canonicalForm/ontolex:writtenRep ?urduWord .
+    }
+  }
+
+  # Punjabi borrowing
+  OPTIONAL {
+    GRAPH <https://lari-datasets.ilc.cnr.it/chamuca_pa_lex> {
+      ?paEntry a ontolex:LexicalEntry ;
+               lexinfo:etymologicalRoot ?ptEntry ;
+               ontolex:canonicalForm/ontolex:writtenRep ?punjabiWord .
+    }
+  }
+}
+GROUP BY ?portugueseWord
+ORDER BY ?portugueseWord
     `);
   }
     }
