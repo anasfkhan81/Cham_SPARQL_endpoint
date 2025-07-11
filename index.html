@@ -83,16 +83,18 @@
         tab.setName("All Lexical Entries");
         tab.setQuery(`PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#> 
+PREFIX lexinfo: <http://www.lexinfo.net/ontology/2.0/lexinfo#>
 
 # This query extracts the lemmas and definitions for all of the South Asian languages so far included
 
-SELECT DISTINCT ?lang (GROUP_CONCAT(STR(?lemma); SEPARATOR=" / ") AS ?combinedForm) ?defn WHERE {
+SELECT DISTINCT ?lang (GROUP_CONCAT(STR(?lemma); SEPARATOR=" / ") AS ?combinedForm) ?defn ?et WHERE {
 
   {
     GRAPH <https://lari-datasets.ilc.cnr.it/chamuca_hi_lex> {
       ?lex a ontolex:LexicalEntry ;
            ontolex:canonicalForm ?form ;
-           ontolex:sense/skos:definition ?defn .
+           ontolex:sense/skos:definition ?defn ;
+           lexinfo:etymology ?et .
       ?form ontolex:writtenRep ?lemma . 
       FILTER(LANG(?lemma) IN ("hi-Deva", "hi-Latn"))
     }
@@ -105,7 +107,8 @@ SELECT DISTINCT ?lang (GROUP_CONCAT(STR(?lemma); SEPARATOR=" / ") AS ?combinedFo
     GRAPH <https://lari-datasets.ilc.cnr.it/chamuca_ur_lex> {
       ?lex a ontolex:LexicalEntry ;
            ontolex:canonicalForm ?form ;
-           ontolex:sense/skos:definition ?defn .
+           ontolex:sense/skos:definition ?defn ;
+           lexinfo:etymology ?et .
       ?form ontolex:writtenRep ?lemma . 
       FILTER(LANG(?lemma) IN ("ur-Arab", "ur-Latn"))
     }
@@ -118,7 +121,8 @@ SELECT DISTINCT ?lang (GROUP_CONCAT(STR(?lemma); SEPARATOR=" / ") AS ?combinedFo
     GRAPH <https://lari-datasets.ilc.cnr.it/chamuca_pa_lex> {
       ?lex a ontolex:LexicalEntry ;
            ontolex:canonicalForm ?form ;
-           ontolex:sense/skos:definition ?defn .
+           ontolex:sense/skos:definition ?defn ;
+           lexinfo:etymology ?et .
       ?form ontolex:writtenRep ?lemma .
       FILTER(LANG(?lemma) IN ("pa-In", "pa-Ltn", "pnb"))
     }
@@ -126,7 +130,7 @@ SELECT DISTINCT ?lang (GROUP_CONCAT(STR(?lemma); SEPARATOR=" / ") AS ?combinedFo
   }
 
 }
-GROUP BY ?lex ?lang ?defn
+GROUP BY ?lex ?lang ?defn ?et
 ORDER BY ?lang ?combinedForm
   `);
       } else if (type === "hindi") {
