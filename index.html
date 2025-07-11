@@ -84,6 +84,8 @@
         tab.setQuery(`PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#> 
 
+# This query extracts the lemmas and definitions for all of the South Asian languages so far included
+
 SELECT DISTINCT ?lang (GROUP_CONCAT(STR(?lemma); SEPARATOR=" / ") AS ?combinedForm) ?defn WHERE {
 
   {
@@ -132,6 +134,8 @@ ORDER BY ?lang ?combinedForm
         tab.setQuery(`PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
 PREFIX lexinfo: <http://www.lexinfo.net/ontology/2.0/lexinfo#>
 
+# This query compares the Hindi gender with Portuguese gender
+
 SELECT ?hindiWordConcat ?hgen ?portugueseWord ?pgen WHERE {
 
   # Subquery to concatenate Devanagari + Latin forms
@@ -164,6 +168,8 @@ SELECT ?hindiWordConcat ?hgen ?portugueseWord ?pgen WHERE {
     tab.setQuery(`
     PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
 PREFIX lexinfo: <http://www.lexinfo.net/ontology/2.0/lexinfo#>
+
+# This query returns a list of Portuguese etymons and their reflexes
 
 SELECT ?portugueseWord (SAMPLE(?hindiWord) AS ?hi) (SAMPLE(?urduWord) AS ?ur) (SAMPLE(?punjabiWord) AS ?pa) WHERE {
 
