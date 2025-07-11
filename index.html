@@ -52,7 +52,8 @@
 <body>
   <div id="toolbar">
     <button onclick="loadQuery('lexical')">Lexical Entries</button>
-    <button onclick="loadQuery('senses')">Hindi Entries</button>
+    <button onclick="loadQuery('hindi')">Hindi Entries</button>
+    <button onclick="loadQuery('etymons')">Portuguese Etymons</button>
     <!-- Add more buttons here -->
   </div>
 
@@ -96,7 +97,7 @@ WHERE {
   }
 }
         `);
-      } else if (type === "senses") {
+      } else if (type === "hindi") {
         tab.setName("Senses + Definitions");
         tab.setQuery(`PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
 PREFIX lexinfo: <http://www.lexinfo.net/ontology/2.0/lexinfo#>
@@ -113,6 +114,18 @@ SELECT DISTINCT ?hindiWord ?portugueseWord WHERE {
 }  
         `);
       }
+      else if (type === "etymons") {
+    tab.setName("Portuguese Etymons");
+    tab.setQuery(`
+      PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
+      SELECT DISTINCT ?lemma WHERE {
+        GRAPH <http://lari-datasets.ilc.cnr.it/chamuca_pt_lex> {
+          ?entry a ontolex:LexicalEntry ;
+                 ontolex:canonicalForm/ontolex:writtenRep ?lemma .
+        }
+      }
+    `);
+  }
     }
   </script>
 </body>
