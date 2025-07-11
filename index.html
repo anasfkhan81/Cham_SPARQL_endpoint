@@ -101,18 +101,33 @@ WHERE {
         tab.setName("Senses + Definitions");
         tab.setQuery(`PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
 PREFIX lexinfo: <http://www.lexinfo.net/ontology/2.0/lexinfo#>
-SELECT DISTINCT ?hindiWord ?portugueseWord WHERE {
+
+SELECT ?hindiWordConcat ?hgen ?portugueseWord ?pgen WHERE {
+
+  # Subquery to concatenate Devanagari + Latin forms
+  {
+    SELECT ?hEntry (GROUP_CONCAT(STR(?hindiWord); SEPARATOR=" / ") AS ?hindiWordConcat) WHERE {
+      GRAPH <http://lari-datasets.ilc.cnr.it/chamuca_hi_lex> {
+        ?hEntry ontolex:canonicalForm/ontolex:writtenRep ?hindiWord .
+      }
+    }
+    GROUP BY ?hEntry
+  }
+
+  # Get gender and Portuguese link from Hindi lexicon
   GRAPH <http://lari-datasets.ilc.cnr.it/chamuca_hi_lex> {
     ?hEntry a ontolex:LexicalEntry ;
-            ontolex:canonicalForm/ontolex:writtenRep ?hindiWord ; 
-           lexinfo:etymologicalRoot ?ptID.
-      }
- GRAPH <http://lari-datasets.ilc.cnr.it/chamuca_pt_lex> {
-    ?ptID ontolex:canonicalForm/ontolex:writtenRep ?portugueseWord .
-        
- }
-}  
-        `);
+            lexinfo:etymologicalRoot ?ptID ;
+            lexinfo:gender ?hgen .
+  }
+
+  # Get canonical form and gender from Portuguese lexicon
+  GRAPH <http://lari-datasets.ilc.cnr.it/chamuca_pt_lex> {
+    ?ptID ontolex:canonicalForm/ontolex:writtenRep ?portugueseWord ;
+          lexinfo:gender ?pgen .
+  }
+}
+ `);
       }
       else if (type === "etymons") {
     tab.setName("Portuguese Etymons");
