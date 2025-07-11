@@ -89,7 +89,7 @@ PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 SELECT DISTINCT ?lang (GROUP_CONCAT(STR(?lemma); SEPARATOR=" / ") AS ?combinedForm) ?defn WHERE {
 
   {
-    GRAPH <http://lari-datasets.ilc.cnr.it/chamuca_hi_lex> {
+    GRAPH <https://lari-datasets.ilc.cnr.it/chamuca_hi_lex> {
       ?lex a ontolex:LexicalEntry ;
            ontolex:canonicalForm ?form ;
            ontolex:sense/skos:definition ?defn .
@@ -102,7 +102,7 @@ SELECT DISTINCT ?lang (GROUP_CONCAT(STR(?lemma); SEPARATOR=" / ") AS ?combinedFo
   UNION
 
   {
-    GRAPH <http://lari-datasets.ilc.cnr.it/chamuca_ur_lex> {
+    GRAPH <https://lari-datasets.ilc.cnr.it/chamuca_ur_lex> {
       ?lex a ontolex:LexicalEntry ;
            ontolex:canonicalForm ?form ;
            ontolex:sense/skos:definition ?defn .
@@ -141,7 +141,7 @@ SELECT ?hindiWordConcat ?hgen ?portugueseWord ?pgen WHERE {
   # Subquery to concatenate Devanagari + Latin forms
   {
     SELECT ?hEntry (GROUP_CONCAT(STR(?hindiWord); SEPARATOR=" / ") AS ?hindiWordConcat) WHERE {
-      GRAPH <http://lari-datasets.ilc.cnr.it/chamuca_hi_lex> {
+      GRAPH <https://lari-datasets.ilc.cnr.it/chamuca_hi_lex> {
         ?hEntry ontolex:canonicalForm/ontolex:writtenRep ?hindiWord .
       }
     }
@@ -149,14 +149,14 @@ SELECT ?hindiWordConcat ?hgen ?portugueseWord ?pgen WHERE {
   }
 
   # Get gender and Portuguese link from Hindi lexicon
-  GRAPH <http://lari-datasets.ilc.cnr.it/chamuca_hi_lex> {
+  GRAPH <https://lari-datasets.ilc.cnr.it/chamuca_hi_lex> {
     ?hEntry a ontolex:LexicalEntry ;
             lexinfo:etymologicalRoot ?ptID ;
             lexinfo:gender ?hgen .
   }
 
   # Get canonical form and gender from Portuguese lexicon
-  GRAPH <http://lari-datasets.ilc.cnr.it/chamuca_pt_lex> {
+  GRAPH <https://lari-datasets.ilc.cnr.it/chamuca_pt_lex> {
     ?ptID ontolex:canonicalForm/ontolex:writtenRep ?portugueseWord ;
           lexinfo:gender ?pgen .
   }
@@ -181,7 +181,7 @@ SELECT ?portugueseWord (SAMPLE(?hindiWord) AS ?hi) (SAMPLE(?urduWord) AS ?ur) (S
 
   # Hindi borrowing
   OPTIONAL {
-    GRAPH <http://lari-datasets.ilc.cnr.it/chamuca_hi_lex> {
+    GRAPH <https://lari-datasets.ilc.cnr.it/chamuca_hi_lex> {
       ?hiEntry a ontolex:LexicalEntry ;
                lexinfo:etymologicalRoot ?ptEntry ;
                ontolex:canonicalForm/ontolex:writtenRep ?hindiWord .
