@@ -81,22 +81,52 @@
     function loadQuery(type) {
       if (type === "lexical") {
         tab.setName("All Lexical Entries");
-        tab.setQuery(`
-SELECT ?lemma
-WHERE {
-  VALUES ?g {
-    <http://lari-datasets.ilc.cnr.it/chamuca_hi_lex>
-    <http://lari-datasets.ilc.cnr.it/chamuca_ur_lex>
-    <https://lari-datasets.ilc.cnr.it/chamuca_pa_lex>
-    
+        tab.setQuery(`PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#> 
+
+SELECT DISTINCT ?lang (GROUP_CONCAT(STR(?lemma); SEPARATOR=" / ") AS ?combinedForm) ?defn WHERE {
+
+  {
+    GRAPH <http://lari-datasets.ilc.cnr.it/chamuca_hi_lex> {
+      ?lex a ontolex:LexicalEntry ;
+           ontolex:canonicalForm ?form ;
+           ontolex:sense/skos:definition ?defn .
+      ?form ontolex:writtenRep ?lemma . 
+      FILTER(LANG(?lemma) IN ("hi-Deva", "hi-Latn"))
+    }
+    BIND("hi" AS ?lang)
   }
-  GRAPH ?g {
-    ?lex a <http://www.w3.org/ns/lemon/ontolex#LexicalEntry> ;
-         <http://www.w3.org/ns/lemon/ontolex#canonicalForm> ?form .
-    ?form <http://www.w3.org/ns/lemon/ontolex#writtenRep> ?lemma .
+
+  UNION
+
+  {
+    GRAPH <http://lari-datasets.ilc.cnr.it/chamuca_ur_lex> {
+      ?lex a ontolex:LexicalEntry ;
+           ontolex:canonicalForm ?form ;
+           ontolex:sense/skos:definition ?defn .
+      ?form ontolex:writtenRep ?lemma . 
+      FILTER(LANG(?lemma) IN ("ur-Arab", "ur-Latn"))
+    }
+    BIND("ur" AS ?lang)
   }
+
+  UNION
+
+  {
+    GRAPH <https://lari-datasets.ilc.cnr.it/chamuca_pa_lex> {
+      ?lex a ontolex:LexicalEntry ;
+           ontolex:canonicalForm ?form ;
+           ontolex:sense/skos:definition ?defn .
+      ?form ontolex:writtenRep ?lemma .
+      FILTER(LANG(?lemma) IN ("pa-In", "pa-Ltn", "pnb"))
+    }
+    BIND("pa" AS ?lang)
+  }
+
 }
-        `);
+GROUP BY ?lex ?lang ?defn
+ORDER BY ?lang ?combinedForm
+  `);
       } else if (type === "hindi") {
         tab.setName("Senses + Definitions");
         tab.setQuery(`PREFIX ontolex: <http://www.w3.org/ns/lemon/ontolex#>
